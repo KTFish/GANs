@@ -11,6 +11,7 @@ Repository combining all my work related to GANs (learning, projects, gits).
 | Wasserstein GAN | |
 | Theory Gist for Generative Adversarial Networks | A gits with math equations, glossary and explanations etc. |
 
-# External resources
+# External resources (if you also learn about GANs 😏
 * [YouTube tutorial](https://www.youtube.com/watch?v=AALBGpLbj6Q) by 
-Nicholas Renotte ,,Build a Generative Adversarial Neural Network with Tensorflow and Python". 
+Nicholas Renotte ,,Build a Generative Adversarial Neural Network with Tensorflow and Python".
+* [An Introduction to Generative Adversarial Networks (GANs)](https://www.youtube.com/watch?v=OXWvrRLzEaU&list=PLhhyoLH6IjfwIp8bZnzX8QR30TRcHO8Va) by Aladdin Persson
