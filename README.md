@@ -10,3 +10,7 @@ Repository combining all my work related to GANs (learning, projects, gits).
 | [DCGAN](https://github.com/KTFish/DCGAN)| Implementation of the nsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks paper.|
 | Wasserstein GAN | |
 | Theory Gist for Generative Adversarial Networks | A gits with math equations, glossary and explanations etc. |
+
+# External resources
+* [YouTube tutorial](https://www.youtube.com/watch?v=AALBGpLbj6Q) by 
+Nicholas Renotte ,,Build a Generative Adversarial Neural Network with Tensorflow and Python". 
