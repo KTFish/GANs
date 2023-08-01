@@ -1,4 +1,4 @@
-# Theory Notes 01
+# Theory Notes 01 📝
 
 Notes based on [Coursera Course](https://www.coursera.org/learn/build-basic-generative-adversarial-networks-gans) _Build Basic Generative Adversarial Networks_. The notes aim to cover the topics from the course and add some information and recourses around covered topics.
 
@@ -68,6 +68,7 @@ Coursera formula:
 
 $$J(\theta) = -\frac{1}{m}\sum_{i=1}^{m}[y^{(i)}\log{(h(x^{(i)}, \theta))} + (1 - y^{(i)})\log{(1 - h(x^{(i)}, \theta))}]$$
 
+- The minus sign at the beggining of the formula forces the result to be always grater or equal to 0.
 - $\theta$ - parameters of the generator.
 - $y^{(i)}logh(x^{(i)}, \theta)$ - used to calculate the loss when $y^{(i)} = 1$.
 - $(1 - y^{(i)})log(1 - h(x^{(i)}, \theta))$ - used to calculate the loss when $y^{(i)} = 0$.
@@ -152,6 +153,14 @@ convolutions (generator).
 | Uses $0$ and $1$ as labels.                                                                                                                                       | Uses $1$ and $-1$ as labels.                                                                                                                |
 
 ### Lipschitz continuity :small_red_triangle:
+
+<div style="text-align: center;">
+  <a href="https://en.wikipedia.org/wiki/Lipschitz_continuity">
+    <img src="./figures/01-lipschtiz.gif" alt="Lipschitz Continuity">
+  </a>
+</div>
+
+<!-- ![Alt text](./figures/01-lipschtiz.gif) -->
 
 > :bulb: It is a **neccesery restriction for the critic** used in WGAN. The critic have to be a [continuous](https://en.wikipedia.org/wiki/Continuous_function) [function 1-Lipschtiz](https://en.wikipedia.org/wiki/Lipschitz_continuity).
 
