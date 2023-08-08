@@ -2,23 +2,38 @@
 
 ## 1. Inception-v3 Architecture
 
+> 🏃 Commonly used as a feature extractor. It is a huge classifier model trained on ImageNet. Thanks to it we can extract meaningful features and compare images with them.
+
 <!-- TODO: Why do we even talk about this? -->
 
-**Fun fact from Wikipedia:** [The original name (Inception)](https://en.wikipedia.org/wiki/Inceptionv3) was codenamed this way after a popular "'we need to go deeper' internet meme" went viral, quoting a phrase from the Inception film of Christopher Nolan.
+![Feature Extractor Scheme](image-79.png)
+
+> **Fun fact from Wikipedia:** [The original name (Inception)](https://en.wikipedia.org/wiki/Inceptionv3) was codenamed this way after a popular "'we need to go deeper' internet meme" went viral, quoting a phrase from the Inception film of Christopher Nolan.
+>
+> ![Inception Meme](image-80.png)
+
+<!-- | Big Kernel Size | Small Kernel Size               | When desired? |
+| --------------- | ------------------------------- | ------------- |
+|                 | Information distributed locally |               | -->
+
+> To use Inception Architecture as a **feature extractor we cut off the classification layer**. In `pytorch` this can be done with the following code:
+>
+> #### `inception_model.fc = torch.nn.Identity()`
+>
+> Where `fc` represents the last fully connected layer (classification layer that outputs propabilities per class) and [`nn.Identity`](https://pytorch.org/docs/stable/generated/torch.nn.Identity.html) is a placeholder that returns the input data without any changes.
+
+### Resources related to this topic
 
 - [Papers with code](https://paperswithcode.com/method/inception-v3)
 - Towards Data Science ["A Simple Guide to the Versions of the Inception Network"](https://towardsdatascience.com/a-simple-guide-to-the-versions-of-the-inception-network-7fc52b863202) by Bharath Raj. It explains what Inception Model familly is, what problem it solved and goes trought the 3 versions.
 
-| Big Kernel Size | Small Kernel Size               | When desired? |
-| --------------- | ------------------------------- | ------------- |
-|                 | Information distributed locally |               |
-
 ## 2. Fréchet Inception Distance (FID)
 
-![FID](image-19.png)
+> 🏃 FID measures the distance between two distributions.
 
-> Replacing a final fully-connected (fc) layer with an identity function layer to cut off the classification layer and get a feature extractor.
-> `inception_model.fc = torch.nn.Identity()`
+<p align="center">
+  <img src="image-81.png" alt="Image">
+</p>
 
 $$d(X,Y) = (\mu_X-\mu_Y)^2 + (\sigma_X-\sigma_Y)^2 $$
 
@@ -175,10 +190,16 @@ https://medium.com/@jonathan_hui/gan-how-to-measure-gan-performance-64b988c47732
 
 ### Truncation Trick
 
+![Alt text](image-77.png)
 ![Alt text](image-15.png)
 
 > **How does truncation trick sampling work, and when do you use it?**
 > By sampling at test time from a normal distribution with its tails clipped.
+
+> Notebook C2W3
+> ![Alt text](image-76.png)
+
+https://paperswithcode.com/method/truncation-trick
 
 ### HYPE
 
@@ -289,24 +310,40 @@ https://arxiv.org/abs/1906.02659
 
 ## 10. StyleGAN
 
-> ### Overview
->
-> ![Alt text](image-45.png)
+### Overview
 
-![goals](image-41.png)
-![Alt text](image-42.png)
+**Goal:** Improved control over generation. Better quality and increased diversity.
+**Paper:** [A Style-Based Generator Architecture for Generative Adversarial Networks](https://arxiv.org/abs/1812.04948)
+**Other papers:**
+[Progressive Growing of GANs for Improved Quality, Stability, and Variation](https://arxiv.org/abs/1710.10196).
+Medium [GAN — StyleGAN & StyleGAN2](https://jonathan-hui.medium.com/gan-stylegan-stylegan2-479bdf256299)
+**StyleGAN consists of:**
 
-> ### Generator in StyleGAN
->
-> ![Alt text](image-43.png)
-> Intermediate noise vector $w$ is multiple times injected (AdaIN operation) into the StyleGAN generator.
+- Noise Mapping Network
+- Progressive Growing
+- AdaIN (Adaptive Instance Normalization)
+- Style Mixing
+- Stochastic Noise
 
-> ### Progressive Growing
->
+### Generator in StyleGAN
+
+> **Intermediate noise vector $w$** is multiple times injected (AdaIN operation) into the StyleGAN generator.
+
+![Alt text](image-74.png)
+
+### Progressive Growing
+
+> 🏃 Ensures stable training of generator models that can output large high-quality images. art with an small image (generating a small image is an easier task).
 > ![Alt text](image-44.png)
 
-Start with an small image. Generating a small image is an easier task.
-![Alt text](image-47.png)
+During the training we **incrementally add layers** to Generator and Discriminator. This results in increase of the spatial resolution of the generated images. All existing layers remain **trainable** throughout the process.
+![Alt text](image-75.png)
+**Advantages of Progressive Growing:**
+
+- Reduced training time (most of the iterations are computed with lower resolutions).
+- Ability to generate high resolution images.
+- Usage only of a single GAN (compared to other approaches).
+
 ![Alt text](image-48.png)
 ![Alt text](image-49.png)
 The same alfa apameter in generator and discriminator that decides if rellay on learned parameters.
@@ -321,6 +358,8 @@ To gradually train the generator by iteratively increasing the resolution of ima
 
 ### Noise Mapping Network
 
+Thanks to Noise Mapping Network the $z$ vector can be represented in a more disentangled space which enables easier feature control.
+
 ![Alt text](image-54.png)
 ![Alt text](image-55.png)
 ![Z-Space Entanglment](image-56.png)
@@ -330,7 +369,12 @@ To gradually train the generator by iteratively increasing the resolution of ima
 Why map $z$ vector to $w$ vector?
 In order to learn factors of variation and increase control over features in a more disentangled space (where changing one fature does not impact change in other features).
 
-### Adaptive Instance Normalization AdaIN
+### Adaptive Instance Normalization AdaIN (Random Noise Injection)
+
+#### $ \text{AdaIN}(\boldsymbol{\mathrm{x}}_i, \boldsymbol{\mathrm{y}}) = \boldsymbol{\mathrm{y}}_{s,i} \frac{\boldsymbol{\mathrm{x}}_i - \mu(\boldsymbol{\mathrm{x}}\_i)}{\sigma(\boldsymbol{\mathrm{x}}\_i)} + \boldsymbol{\mathrm{y}}_{b,i} $
+
+_The noise tensor is not entirely random; it is initialized as one random channel that is then multiplied by learned weights for each channel in the image._
+![Alt text](image-78.png)
 
 ![Outline](image-60.png)
 ![scheme](image-61.png)
@@ -369,7 +413,37 @@ $\lambda$'s are learnend values!
 > **Why is random noise added throughout StyleGAN?**
 > To introduce more randomness into the feature map and increase diversity.Extra noise is injected at several different levels of StyleGAN, and affects the generated image in a different way depending on whether the noise was injected earlier or later.
 
-## 11.
+## 11. Perceptual Path Length (PPL)
+
+> 🏃 Metric that evaluates **how well a generator manages to smoothly interpolate between points in its latent space.**
+
+#### $$PPL_{w} = \mathbb{E}\left[\frac{1}{\epsilon^2} \mathop{d_{\mathrm{LPIPS}}}\left(\mathop{\mathrm{G}}\left(\mathrm{lerp}(w_1, w_2, t\right), \mathop{\mathrm{G}}\left(\mathrm{lerp}(w_1, w_2, t + \epsilon\right)\right)\right]$$
+
+- $\mathbb{E}$ - expect. The symbol is there because the equation is calculated several times in order to estimate PPL.
+
+**Bullet points:**
+
+- Introduced as part of StyleGAN
+
+### Interpolation
+
+> 🏃 Process of smoothly **transitioning** between two different data points in the latent space to create intermediate samples.
+
+#### $$z_{interpolated} = (1 - \alpha) z_1 + \alpha z_2$$
+
+Interpolation is used for:
+
+- Style Mixing
+- Data Augmentation
+- Exploring the latent space
+
+## 12.
+
+# Papers
+
+| Paper Name                                                         | Description                                                                         | Tags | Year | Code                                                      |
+| ------------------------------------------------------------------ | ----------------------------------------------------------------------------------- | ---- | ---- | --------------------------------------------------------- |
+| [Generative Adversarial Networks](https://arxiv.org/abs/1406.2661) | First GAN paper. Proposed training two adversarial models in the generation proces. | GAN  | 2014 | [Papers with code](https://paperswithcode.com/method/gan) |
 
 # Glossary
 
@@ -392,7 +466,9 @@ $\lambda$'s are learnend values!
 - Variance - measures spread in a distribution
 - Covariance - measures the spread between two dimensions.
 - Covariance matrix
+- Latent space - lower-dimensional representation that GANs use to generate stuff.
 - latent space distribution prior 𝑝(𝑧) - distribution for the latent space with a mean of 0 and a standard deviation of 1 in each dimension $\mathcal{N}(0, I)$.
+- Interpolation - process of smoothly transitioning between two different data points in the latent space to create intermediate samples.
 
 <!-- # TODO: Table with metric - which is better high or low etc. -->
 
