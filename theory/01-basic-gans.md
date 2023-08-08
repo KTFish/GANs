@@ -167,7 +167,9 @@ convolutions (generator).
 Critic is a function which transforms an image into a prediction.
 
 Critic is a 1-Lipschtiz function if for any two images $x_1$ and $x_2$:
-$$\frac{|C(x_1) - C(x_2)|}{|x_1 - x_2|} \le 1$$
+
+### $$\frac{|C(x_1) - C(x_2)|}{|x_1 - x_2|} \le 1$$
+
 In this formula $|C(x_1) - C(x_2)|$ is the absolute difference between the critics predictions and $x_1 - x_2$ is the difference between pixel values.
 
 > :bulb: In other words we **restrict the speed** of the changes in critics predictions.
@@ -182,7 +184,8 @@ Calculating the Gradient Penalty can be splitted into two steps:
 2. Compute the gradient penalty given the gradient.
 
 The Gradient Penalty can be described as:
-$$\underset{g}{min} \, \underset{c}{max} \, \mathbb{E}(c(x)) - \mathbb{E}(c(g(z)) + \lambda \mathbb{E}(||\nabla c(\hat{x})||_2 - 1) ^ 2$$
+
+### $$\underset{g}{min} \, \underset{c}{max} \, \mathbb{E}(c(x)) - \mathbb{E}(c(g(z)) + \lambda \mathbb{E}(||\nabla c(\hat{x})||_2 - 1) ^ 2$$
 
 **Models:**
 
@@ -194,7 +197,7 @@ $$\underset{g}{min} \, \underset{c}{max} \, \mathbb{E}(c(x)) - \mathbb{E}(c(g(z)
 - $x$ - real image.
 - $z$ - noise vector.
 - $g(z)$ - generated (fake) image.
-- $\hat{x} = \epsilon x + ( 1 - \epsilon) g(z) $ - Mixed image. In other words the mixed image is created by weighting the real and fake image with $\epsilon$ (epsilon) and then adding those images.
+- $ \hat{x} = \epsilon x + ( 1 - \epsilon) g(z) $ - Mixed image. In other words the mixed image is created by weighting the real and fake image with $\epsilon$ (epsilon) and then adding those images.
 - $c(\hat{x})$ - critics score on the mixed image.
 
 **Other:**
@@ -259,7 +262,8 @@ $$\underset{g}{min} \, \underset{c}{max} \, \mathbb{E}(c(x)) - \mathbb{E}(c(g(z)
 - It is used to upscale images.
 - Takes the same parameters as standard convolution: `kernel_size`, `padding` and `stride`.
 
-$$N = s(M - 1) + f - 2p$$
+### $$N = s(M - 1) + f - 2p$$
+
 Where:
 
 - $N$ - Number of pixels in output image.
