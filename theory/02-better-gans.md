@@ -29,52 +29,48 @@
 
 ## 2. Fréchet Inception Distance (FID)
 
-> 🏃 FID measures the distance between two distributions.
+> 🏃 FID measures the **distance between two distributions**. The lower the better.
+> 🧠 Quantifies the difference between the distributions of **features extracted** from real and generated images using an **Inception-v3** neural network.
+> ✅ **Lower** FID means that the generated images are more **realistic.**
+> ❌ **High** FID means a **lack of diversity or fidelity.**
+> ⏳ Introduced in 2017 and has generally **superseded inception score** as the preferred measure of generative image model performance.
+> ⛓️ There is **no strict range** for FID. But usually the closer to zero the better.
+> 🐘 Use a **large sample** size to **reduce noise.**
 
 <p align="center">
   <img src="image-81.png" alt="Image">
 </p>
 
-$$d(X,Y) = (\mu_X-\mu_Y)^2 + (\sigma_X-\sigma_Y)^2 $$
+### Fréchet Distance Between Normal Distributions
 
-> The lower the better. A high FID means a lack of diversity or fidelity.
+### $$d(X,Y) = (\mu_X-\mu_Y)^2 + (\sigma_X-\sigma_Y)^2 $$
 
-> Introduced in 2017 and has generally superseded inception score as the preferred measure of generative image model performance.
-
-![Alt text](image-1.png)
-![Alt text](image-2.png)
-![Alt text](image-3.png)
-Higher variance = bigger area of the circle
-![Alt text](image-4.png)
-![Alt text](image-6.png)
-
-- [Kaggle Notebook about FID](https://www.kaggle.com/code/ibtesama/gan-in-pytorch-with-fid)
-- [Target Tech](https://www.techtarget.com/searchenterpriseai/definition/Frechet-inception-distance-FID)
+- $\mu_X$ - mean of distribution $X$.
+- $\sigma_X$ - standard deviation of distribution $X$.
 
 ### Covariance
 
-![Alt text](image-20.png)
-
 > 🏃 Its a measure of variance of 2 variables.
 
-| Number of variables | Name           |
-| ------------------- | -------------- |
-| One                 | Variance       |
-| Two                 | **Co**variance |
-| More                | ???            |
+Value at location $(i, j)$ in the correlation matrix corresponds to the covariance of vector $i$ with vector $j$. Covariance of $i$ with $j$ and $j$ with $i$ is equivalent, so the correlation matrix will always be symmetric with respect to its diagonal (On the diagonal there is the covariance of that element with itself).
+
+![Dimenstions-Independent](image-83.png)
+![Dimensions-Covary](image-82.png)
+Higher variance = bigger area of the circle
+![Alt text](image-4.png)
+
+| Number of variables | Name              |
+| ------------------- | ----------------- |
+| One                 | Variance          |
+| Two                 | **Co**variance    |
+| More                | Covariance Matrix |
 
 - If **zeros are everywhere except the diagonal** it means the dimensionc are **intependent**.
 - If values **other than zeros** are on the **diagonal** it means the dimensions **covary**.
 
-- [Covariance explanation on YouTube](https://www.youtube.com/watch?v=TPcAnExkWwQ) by Normalized Nerd.
-- [Covariance explanation on YouTube](https://www.youtube.com/watch?v=qtaqvPAeEJY) by StatQuest.
-- [Covariance and Correleation](https://ai-ml-analytics.com/covariance-and-correlation/) explanation by ai-ml-analytics.com
-
 ### Multivariate Normal Fréchet Distance
 
-> 🏃 FID is used to **calculate the distance** between real and generated images.
-
-![Alt text](image-7.png)
+> 🏃 Real and fake embeddings are two multivariate normal distributions. Using FID we can calculate the distance between these distributions.
 
 ##### Formula for Univariate Normal Fréchet Distance
 
@@ -82,8 +78,9 @@ $$(\mu x - \mu y)^2 + (\sigma x - \sigma y)^2$$
 
 ##### Formula for Multivariate Normal Fréchet Distance
 
-$$\lVert \mu x - \mu y  \rVert_2 + Tr(\Sigma x + \Sigma y - 2 \sqrt{\Sigma x \Sigma y})$$
-$\lVert \mu x - \mu y  \rVert_2 $ - Magnitude of the vector.
+### $$\lVert \mu x - \mu y  \rVert ^ 2 + Tr(\Sigma x + \Sigma y - 2 \sqrt{\Sigma x \Sigma y})$$
+
+$\lVert \mu x - \mu y  \rVert ^2 $ - Magnitude of the vector.
 $Tr$ - trace of a matrix (sum of its diagonal elements of a matrix).
 $\Sigma$ - Covariance.
 $\mu x$ - mean of the real embeddings.
@@ -91,55 +88,89 @@ $\mu y$ - mean of the fake embeddings.
 $\Sigma x$ - Covariance matrix of the real embeddings.
 $\Sigma y$ - Covariance matrix of the fake embeddings.
 
-Quick notes:
-
-- Real and fake embeddings are two multivariate normal distributions.
-- Lower FID = closer distributions (the lower the better)
-  There is no strict range for FID. But usually the closer to zero the better.
-- Use large sample size to reduce noise
-
 ### Problems with FID
 
-- Not all features are captured by the pre-trained inception model.
+- Not all features are captured by the pre-trained inception model (ImageNet represents not everything in the universe).
 - Not fast.
 - Mean and covariance (first two moments of a distribution) don't cover all aspects of a distribution.
 - A large dataset (smaple size) is needed to work properly.
-  ![Alt text](image-8.png)
-
-![Alt text](image-9.png)
 
 > **How does FID measure the difference between reals and fakes?**
 > By considering the real and fake embeddings as two distributions and comparing the statistics of between those distributions.
 
-### Inception Model Classification
+### Resources related to Covariance & FID
 
-![Alt text](image-10.png)
-$p(y | x)$ - measures the distribution $p$ of $y$ given $x$. S
-where given your image $x$, what is the distribution over those classes given that classifier?
-$P(y)$ - The **marginal label distribution** or $p$ of $y$. It's a distribution over all labels across your entire dataset or across a large sample
+- [Kaggle Notebook about FID](https://www.kaggle.com/code/ibtesama/gan-in-pytorch-with-fid)
+- [Target Tech What is the Fréchet inception distance (FID)?](https://www.techtarget.com/searchenterpriseai/definition/Frechet-inception-distance-FID) - Overview of FID, comparision with Inception Score.
+- [Covariance explanation on YouTube](https://www.youtube.com/watch?v=TPcAnExkWwQ) by Normalized Nerd.
+- [Covariance explanation on YouTube](https://www.youtube.com/watch?v=qtaqvPAeEJY) by StatQuest.
+- [Covariance and Correleation](https://ai-ml-analytics.com/covariance-and-correlation/) explanation by ai-ml-analytics.com
 
-### 3. KL Divergence (Relative Entropy)
+## 3. KL Divergence (Relative Entropy)
 
-> 🏃 KL divergence measures difference in information represented by two distributions.
+> 🏃 Measures **difference in information** represented by two distributions.
+> ♻️ Combines high and low entropy into one metric
 
-> Measures **how much information** you can get or gain on $p$ of $y$ for a particular $x$, given just $p$ of $y$.
-> ![Alt text](image-11.png)
+### Math
 
-you can think of KL Divergence here as approximately getting how different the conditional label distribution for fidelity is, from the marginal label distribution for diversity, which is their relative entropy from one another.
+### $$DL(p(y|x) || p(y)) = p(y|x) \log{\left(\frac{p(y|x)}{p(y)}\right)}$$
 
-> ❓ **Why KL Divergence is not called KL Distance?**
-> In the opposite direction, the KL divergence is not the same. However, the distances are always the same regardless of direction.
+Measures **how much information** you can get or gain on $p$ of $y$ for a particular $x$, given just $p$ of $y$.
 
-You want one to be high, you want the other to be low. In other words, basically, when fake images each have a distinct label and there's also a diverse range of labels among those fakes.
+- **$p(y|x)$** - (generated data distribution) conditional distribution of generated data $y$ given some latent input $x$. In GANs, the generator network takes random noise or latent vectors as input $x$ and generates data $y$, such as images. $p(y|x)$ indicates **how well the generator is able to capture the data distribution conditioned on the latent input.**
+- **$p(y)$** - (real data distribution) **marginal distribution of real data $y$.** In GANs, this distribution corresponds to the distribution of real data that we want the generator to approximate. Ideally, the **generator should generate data that is similar to this distribution.**
+- **$DL(p(y|x) || p(y))$** - KL Divergence between $p(y|x)$ and $p(y)$. It quantifies the difference between the distribution of generated data and the distribution of real data. In the context of GANs, minimizing this divergence is a key objective. When the generator is trained to minimize this divergence, it aims to generate data that is as close as possible to the distribution of real data.
+- **$p(y|x) \log{\left( \frac{p(y|x)}{p(y)} \right)}$** - This term within the equation measures **how much information is lost when using the distribution p(y) to approximate p(y|x).** The logarithm term captures the ratio of these two distributions. When this ratio is close to 1, it indicates that the generator is generating data that matches the real data distribution well.
 
-- You Tube explanation [of divergence](https://www.youtube.com/watch?v=q0AkK8aYbLY) by ritvikmath.
+  ![KL Divergence Formula with explanations](image-86.png)
+
+- In summary, the equation for KL Divergence in the context of GANs **quantifies how well the generated data distribution $p(y|x)$ matches the distribution of real data $p(y)$.**
+
+> ### Outside of GANs context
+>
+> ### $$KL(P || Q) = \sum_x P(x) \log{\left(\frac{P(x)}{Q(x)}\right)}$$
+>
+> - ,,Relative to Q how much P is different (has changed)".
+> - $P$ - Current distribution
+> - $Q$ - Refrence distribution
+>   The multiplication by $P(x)$ weights the importance of change of a variable.
+
+> 🤷‍♂️ **Why KL Divergence is not called KL Distance?**
+> In the opposite direction, the KL divergence is not the same in both directions. However, the distances are always the same regardless of direction.
+
+### 🤯 KL-Divergence vs. FID vs. Inception Score
+
+| Feature             | KL Divergence                                         | FID (Fréchet Inception Distance)                                              | Inception Score                                  |
+| ------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------ |
+| Purpose             | Measures difference between probability distributions | Evaluates image quality in generative models (does not measure the diversity) | Measures image quality and diversity in GANs     |
+| Symmetry            | Asymmetric: D(A \| B) ≠ D(B \| A)                     | Symmetric: FID(A, B) = FID(B, A)                                              | Not applicable to Inception Score                |
+| Domain              | General: Applicable to various distributions          | Image Generation: Specifically for image quality                              | Image Generation: Specifically for image quality |
+| Information Measure | Measures information/content difference               | Measures **feature space distance** between images                            | Measures **quality and diversity** of GAN images |
+| High-Dimensional    | May have challenges in high-dimensional spaces        | Designed for high-dimensional image spaces                                    | Designed for high-dimensional image spaces       |
+| Application         | General-purpose: Widely used in statistics, ML        | GAN Evaluation: Commonly used for GANs                                        | GAN Evaluation: Specifically for image diversity |
+| ✅ Desired value    | The **lower** the better.                             | **Lower** FID means that the generated images are more **realistic.**         | The **higher** the IS the better.                |
+
+### Resources related to KL Divergence
+
+- You Tube explanation [of divergence](https://www.youtube.com/watch?v=q0AkK8aYbLY) by ritvikmath - Slow explanation on paper of KL Divergence concept (outside the GAN context). Example of use in datascience.
 - [Understanding KL Divergence](https://towardsdatascience.com/understanding-kl-divergence-f3ddc8dff254) by Aparna Dhinakaran.
 
 ## 4. Inception Score
 
 > 🏃 Measures the quality and diversity of generated images. The higher the IS the better.
+> ⏳ FID has generally **superseded inception score**, however **Inception Score** was widely cited in papers.
+> ♻️ Uses **inception-v3** model (but **not** as a feature extractor like FID).
+> Low Entropy = Better Fidelity
+> High Entropy = Better Diversity
 
-![Alt text](image-12.png)
+### Inception Model Classification
+
+![Entropy example](image-87.png)
+![XD](image-88.png)
+![Entropy](image-85.png)
+$p(y | x)$ - measures the distribution $p$ of $y$ given $x$ where given your image $x$, what is the distribution over those classes given that classifier?
+$P(y)$ - The **marginal label distribution** or $p$ of $y$. It's a distribution over all labels across your entire dataset or across a large sample
+
 $$IS  = exp(\mathbb{E}_{x \sim pg} D_{KL}(p(y | x ) || p(y)))$$
 
 - $D_{KL}(p(y | x ) || p(y)))$ - KL Divergence.
@@ -171,20 +202,17 @@ $$IS  = exp(\mathbb{E}_{x \sim pg} D_{KL}(p(y | x ) || p(y)))$$
 - Can be exploited or gamed. Generate only one realistic image of each class.
 - No comparison to real images (makes it only looks at fake images).
 - Works with small square images (about 300 x 300 pixels).
+- It can give a false idea of the performance if the generator generates only one image per class.
 
 ### Inception Score vs. Fréchet Inception Distance
 
-| Feature | IS                                 | FID                                |
-| ------- | ---------------------------------- | ---------------------------------- |
-|         | Evaluates **only on fake** images. | Evaluates on real and fake images. |
+| Feature | IS                                 | FID                                    |
+| ------- | ---------------------------------- | -------------------------------------- |
+| Data    | Evaluates **only on fake** images. | Evaluates on **real and fake** images. |
 
-Need a summary of FID and IS? Here are two great articles that recap both metrics!
+### Resources
 
-Fréchet Inception Distance (Jean, 2018):
-https://nealjean.com/ml/frechet-inception-distance/
-
-GAN — How to measure GAN performance? (Hui, 2018):
-https://medium.com/@jonathan_hui/gan-how-to-measure-gan-performance-64b988c47732
+- [GAN — How to measure GAN performance? (Hui, 2018)](https://medium.com/@jonathan_hui/gan-how-to-measure-gan-performance-64b988c47732)
 
 ## 5. Sampling and Truncation
 
@@ -469,6 +497,7 @@ Interpolation is used for:
 - Latent space - lower-dimensional representation that GANs use to generate stuff.
 - latent space distribution prior 𝑝(𝑧) - distribution for the latent space with a mean of 0 and a standard deviation of 1 in each dimension $\mathcal{N}(0, I)$.
 - Interpolation - process of smoothly transitioning between two different data points in the latent space to create intermediate samples.
+- [Quantify](https://www.oxfordlearnersdictionaries.com/definition/american_english/quantify) - to describe or express something as an amount or a number.
 
 <!-- # TODO: Table with metric - which is better high or low etc. -->
 
