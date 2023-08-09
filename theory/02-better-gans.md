@@ -349,9 +349,12 @@ Medium [GAN — StyleGAN & StyleGAN2](https://jonathan-hui.medium.com/gan-styleg
 
 - Noise Mapping Network
 - Progressive Growing
-- AdaIN (Adaptive Instance Normalization)
+- AdaIN (Adaptive Instance Normalization) - a normalization layer that replaces the pixel normalization from original GAN.
 - Style Mixing
 - Stochastic Noise
+- [Truncation Trick](https://paperswithcode.com/method/truncation-trick)?
+
+![StyleGAN schema from paper](image-89.png)
 
 ### Generator in StyleGAN
 
@@ -399,6 +402,8 @@ In order to learn factors of variation and increase control over features in a m
 
 ### Adaptive Instance Normalization AdaIN (Random Noise Injection)
 
+> 🏃 AdaIN blocks transfer learned style info from the intermediate noise vector $w$ onto the generated image. They also renormalize the statistics so each block overrides the one that came before it.
+
 #### $ \text{AdaIN}(\boldsymbol{\mathrm{x}}_i, \boldsymbol{\mathrm{y}}) = \boldsymbol{\mathrm{y}}_{s,i} \frac{\boldsymbol{\mathrm{x}}_i - \mu(\boldsymbol{\mathrm{x}}\_i)}{\sigma(\boldsymbol{\mathrm{x}}\_i)} + \boldsymbol{\mathrm{y}}_{b,i} $
 
 _The noise tensor is not entirely random; it is initialized as one random channel that is then multiplied by learned weights for each channel in the image._
@@ -408,12 +413,13 @@ _The noise tensor is not entirely random; it is initialized as one random channe
 ![scheme](image-61.png)
 ![Alt text](image-62.png)
 
-##### Batch Norm vs. Instance Norm
-
-$\frac{x - \mu(x_i)}{\sigma(x_i)}$
-$x_i$ - every value from instance i.
-
-![Batch Norm vs. Instance Norm](image-63.png)
+> Batch Norm vs. Instance Norm
+>
+> ### $$\frac{x - \mu(x_i)}{\sigma(x_i)}$$
+>
+> $x_i$ - every value from instance $i$. In context of StyleGAN $i$ stands for a channel.
+>
+> ![Batch Norm vs. Instance Norm](image-63.png)
 
 ![Alt text](image-64.png)
 ![scale and bias (shift)](image-65.png)
@@ -421,10 +427,6 @@ $x_i$ - every value from instance i.
 
 > ![step 2](image-67.png)
 > So you can think of it as an image that has some kind of content and with different ys and yb values. It will be like Picasso drew it, or like Monet drew that image, but **it will have the same content**, right? It'll still be a face or a puppy field, but it would be a different style. So shifting your values to different ranges means standard deviations will actually get you those different styles
-
-![summary](image-68.png)
-What is the purpose of the AdaIN layers?
-AdaIN blocks transfer learned style info from the intermediate noise vector $w$ onto the generated image. They also renormalize the statistics so each block overrides the one that came before it.
 
 ### Style Mixing
 
@@ -439,7 +441,16 @@ $\lambda$'s are learnend values!
 ![summary](image-72.png)
 
 > **Why is random noise added throughout StyleGAN?**
-> To introduce more randomness into the feature map and increase diversity.Extra noise is injected at several different levels of StyleGAN, and affects the generated image in a different way depending on whether the noise was injected earlier or later.
+> To introduce more randomness into the feature map and increase diversity. Extra noise is injected at several different levels of StyleGAN, and affects the generated image in a different way depending on whether the noise was injected earlier or later.
+
+### Resources related to StyleGAN
+
+- YouTube video [StyleGAN Paper Explained](https://www.youtube.com/watch?v=qZuoU23ACTo) by Aladdin Pe - Walk through the paper with commentary.
+- [Facebook AI Proposes Group Normalization Alternative to Batch Normalization](https://medium.com/syncedreview/facebook-ai-proposes-group-normalization-alternative-to-batch-normalization-fb0699bffae7)
+- YouTube video [All About Normalizations! - Batch, Layer, Instance and Group Norm](https://www.youtube.com/watch?v=1JmZ5idFcVI) by
+  ChiDotPhi.
+
+---
 
 ## 11. Perceptual Path Length (PPL)
 
