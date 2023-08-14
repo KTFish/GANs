@@ -295,6 +295,7 @@ Where:
   Aladdin Perss
 - [WGAN implementation from scratch (with gradient penalty)](https://www.youtube.com/watch?v=pG0QZ7OddX4)
 - Understand [Transpose convolution](https://www.youtube.com/watch?v=U3C8l6w-wn0) by Shubham Singh - theory explanation and Python implementation.
+- [The Math Behind Generative Adversarial Networks Clearly Explained!](https://www.youtube.com/watch?v=Gib_kiXgnvA) by Normalized Nerd.
 
 ### Papers
 

@@ -478,14 +478,6 @@ Interpolation is used for:
 
 ## 12.
 
-# Papers
-
-| Paper Name                                                                                                     | Description                                                                         | Tags     | Year | Code                                                      |
-| -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------- | ---- | --------------------------------------------------------- |
-| [Generative Adversarial Networks](https://arxiv.org/abs/1406.2661)                                             | First GAN paper. Proposed training two adversarial models in the generation proces. | GAN      | 2014 | [Papers with code](https://paperswithcode.com/method/gan) |
-| [A Style-Based Generator Architecture for Generative Adversarial Networks](https://arxiv.org/abs/1812.04948)   | Introduction of StyleGAN, state of the art solution for controlable generation.     | StyleGAN | 2019 |
-| [Progressive Growing of GANs for Improved Quality, Stability, and Variation](https://arxiv.org/abs/1710.10196) |                                                                                     |          | 2017 |                                                           |
-
 # Glossary
 
 > Only short definitions. The details are explained above.
