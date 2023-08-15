@@ -26,7 +26,7 @@ class MapDataset(Dataset):
         input_image, target_image = image[:, :600, :], image[:, 600:, :]
 
         # Augmentations
-        augmentations = config.both_transform(image - input_image, image0=target_image)
+        augmentations = config.both_transform(image=input_image, image0=target_image)
         input_image, target_image = augmentations["image"], augmentations["image0"]
 
         input_image = config.transform_only_input(image=input_image)["image"]
