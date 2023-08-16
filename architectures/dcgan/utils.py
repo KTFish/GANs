@@ -37,7 +37,7 @@ def show_tensor_images(
 
 
 def print_training_progress(
-    epoch: int, curr_step: int, gen_loss: float, disc_loss: float
+    epoch: int, step: int, gen_loss: float, disc_loss: float
 ) -> None:
     """Prints training progress given data.
 
