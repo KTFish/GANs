@@ -2,6 +2,9 @@ quiz.md
 */dataset/
 data/
 evaluation/
+models/
+*pth
+*pt
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
