@@ -14,7 +14,7 @@ def show_tensor_images(
     save_as_png: bool = True,
     epoch: int = None,
     category: str = "real",
-) -> None:
+) -> None:  # TODO: test!~!!!
     """Function for visualizing images: Given a tensor of images, number of images, and
     size per image, plots and prints the images in an uniform grid.
 
@@ -27,12 +27,13 @@ def show_tensor_images(
     image_unflat = image.detach().cpu()
     image_grid = make_grid(image_unflat[:num_images], nrow=5)
     plt.imshow(image_grid.permute(1, 2, 0).squeeze())
-    plt.show()
+    plt.axis(False)
+    # plt.show()
 
     if save_as_png:
         path = f"./data/mnist/evaluation/{category}"
         if not os.path.exists(path):
-            os.mkdirs(path)
+            os.makedirs(path)
         plt.savefig(f"{path}/{epoch}.png")
 
 
@@ -98,3 +99,8 @@ def save_model_checkpoint(
 
     print(f"Saving {name} to {path}.")
     torch.save(model.state_dict(), path)
+
+
+if __name__ == "__main__":
+    image = torch.randn(32, 1, 28, 28)
+    show_tensor_images(image, epoch=-1, category="fake")
