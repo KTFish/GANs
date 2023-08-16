@@ -36,7 +36,7 @@ def train() -> None:
     disc.train()
 
     avg_gen_loss, avg_disc_loss = 0, 0
-    curr_step, display_step = 1, 2
+    curr_step, display_step = 1, 1
     print(f"DCGAN starts training on {config.DEVICE} for {config.EPOCHS} epochs.")
     for epoch in range(config.EPOCHS):
         # Train Generator
@@ -104,6 +104,10 @@ def train() -> None:
             utils.show_tensor_images(fake, epoch=epoch, category="fake")
             utils.show_tensor_images(real, epoch=epoch, category="real")
             avg_gen_loss, avg_disc_loss = 0, 0
+
+            # Save check point
+            utils.save_model_checkpoint(gen, name=f"generator-epoch-{epoch}")
+            utils.save_model_checkpoint(disc, name=f"discriminator-epoch-{epoch}")
         curr_step += 1
 
 

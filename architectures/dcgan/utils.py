@@ -87,20 +87,20 @@ def weights_init(m):
         torch.nn.init.constant_(m.bias, 0)
 
 
-# TODO: Save generator outputs as png fucntion
-
-
 def save_model_checkpoint(
     model: torch.nn.Module, name: str, path: str = "./models/dcgan/"
 ) -> None:
-    path = f"{path}/{name}.pth"
     if not os.path.exists(path):
         os.makedirs(path, exist_ok=True)
 
-    print(f"Saving {name} to {path}.")
-    torch.save(model.state_dict(), path)
+    full_path = f"{path}/{name}.pth"
+    print(f"Saving {name} to {full_path}.")
+    torch.save(model.state_dict(), full_path)
 
 
 if __name__ == "__main__":
+    # Test image saving
     image = torch.randn(32, 1, 28, 28)
     show_tensor_images(image, epoch=-1, category="fake")
+    # xd = nn.Linear(100, 200)
+    # save_model_checkpoint(xd, name="XD")
