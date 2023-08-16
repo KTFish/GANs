@@ -1,6 +1,7 @@
 quiz.md
 */dataset/
-
+data/
+evaluation/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
